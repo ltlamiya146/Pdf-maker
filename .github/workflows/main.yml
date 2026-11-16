@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    name: Build Android APK
     runs-on: ubuntu-latest
 
     steps:
@@ -20,18 +21,22 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Install Gradle 9.3.1
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Check Gradle Wrapper
         run: |
-          wget https://services.gradle.org/distributions/gradle-9.3.1-bin.zip
-          unzip -q gradle-9.3.1-bin.zip -d "$RUNNER_TEMP"
-          echo "$RUNNER_TEMP/gradle-9.3.1/bin" >> "$GITHUB_PATH"
+          ls -la
+          test -f gradlew
+          test -f settings.gradle.kts
+          chmod +x gradlew
 
       - name: Build Debug APK
-        run: gradle assembleDebug --stacktrace
+        run: ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: PDF-Plus-APK
+          name: PDF-PLUS-APK
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
