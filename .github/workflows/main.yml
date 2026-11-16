@@ -1,2 +1,19 @@
-- name: Build Android App
-  uses sparkfabrik/android-build-action@v1.5.0
+name: Build Android App
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build Android App
+        uses: sparkfabrik/android-build-action@v1.5.0
