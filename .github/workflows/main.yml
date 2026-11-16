@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-    name: Build Android APK
     runs-on: ubuntu-latest
 
     steps:
@@ -21,15 +20,16 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Check Android SDK
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          ls "$ANDROID_HOME"
 
       - name: Check Gradle Wrapper
         run: |
           ls -la
-          test -f gradlew
-          test -f settings.gradle.kts
           chmod +x gradlew
+          test -f settings.gradle.kts
 
       - name: Build Debug APK
         run: ./gradlew assembleDebug --stacktrace
