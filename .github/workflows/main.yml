@@ -1,0 +1,25 @@
+
+name: PDF PLUS Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Find Project Files
+        run: |
+          echo "ROOT DIRECTORY"
+          pwd
+          echo "FILES"
+          ls -la
+          echo "GRADLE FILES"
+          find . -maxdepth 6 -type f \( -name "settings.gradle.kts" -o -name "build.gradle.kts" -o -name "gradlew" -o -name "gradle-wrapper.properties" \) -print
